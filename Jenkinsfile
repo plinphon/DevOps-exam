@@ -26,6 +26,16 @@ pipeline {
                 sh 'npm test'
             }
         }
+        
+        stage('Free Port') {
+        steps {
+            sh '''
+            echo "Killing any Node processes..."
+            pkill -f "node" || true
+            '''
+        }
+    }
+
 
         stage('Deploy Docker') {
             steps {
