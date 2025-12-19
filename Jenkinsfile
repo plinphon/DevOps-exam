@@ -24,8 +24,8 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 sh '''
-                # Stop anything using port 4444
                 fuser -k 4444/tcp || true
+                fuser -k 4444/udp || true
 
                 # Run tests
                 npm test
