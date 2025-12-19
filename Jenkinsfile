@@ -23,7 +23,8 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
-                sh 'PORT=0 npm test'
+                fuser -k 4444/tcp || true
+                sh 'npm test'
             }
         }
 
