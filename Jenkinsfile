@@ -30,8 +30,15 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 sh '''
-                pkill -f "node index.js" || true
-                nohup node index.js > app.log 2>&1 &
+                docker build -t myapp:latest .
+                            docker stop myapp || true
+                            docker rm myapp || true
+                            docker run -d \
+                                --name myapp \
+                                -p 4444:4444 \
+                                --restart unless-stopped \
+                                myapp:latest
+                            "
                 '''
             }
         }
