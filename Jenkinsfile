@@ -2,13 +2,12 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'your-dockerhub-username/myapp:latest'
+        IMAGE_NAME = 'plinphonpat/myapp:latest'
         KUBE_DEPLOYMENT = 'myapp-deployment'
         KUBE_SERVICE = 'myapp-service'
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -35,14 +34,23 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t myapp:local .'
+                sh 'docker build -t $IMAGE_NAME .'
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh 'docker push $IMAGE_NAME'
+                }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
                 withCredentials([file(credentialsId: 'my-kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh 'kubectl apply -f pod.yaml'
+                    sh 'kubectl apply -f deployment.yaml'
                 }
             }
         }
@@ -50,10 +58,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Deployed to TARGET'
+            echo '✅ Deployed successfully!'
         }
         failure {
-            echo '❌ failed'
+            echo '❌ Deployment failed!'
         }
     }
 }
