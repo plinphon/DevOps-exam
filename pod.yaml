@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: myapp
+  name: test-nginx
 spec:
   containers:
-    - name: myapp
-      image: ttl.sh/myapp:1h
-      imagePullPolicy: Never
+    - name: nginx
+      image: nginx:latest
+      imagePullPolicy: Always
       ports:
-        - containerPort: 4444
+        - containerPort: 80
