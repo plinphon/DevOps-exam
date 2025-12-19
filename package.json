@@ -1,13 +1,14 @@
 {
   "name": "myapp",
   "version": "1.0.0",
-  "description": "Simple Node app with Jenkins CI",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.19.2"
+  },
   "devDependencies": {
     "jest": "^29.7.0"
   }
