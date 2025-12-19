@@ -21,22 +21,11 @@ pipeline {
             }
         }
 
-        stage('Free Port') {
-            steps {
-                sh '''
-                echo "Killing any Node processes..."
-                pkill -f "node" || true
-                '''
-            }
-        }
-
         stage('Unit Tests') {
             steps {
-                sh 'npm test'
+                sh 'PORT=0 npm test'
             }
         }
-
-
 
         stage('Deploy Docker') {
             steps {
