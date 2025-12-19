@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'plinphonpat/myapp:latest'
-        KUBE_DEPLOYMENT = 'myapp-deployment'
-        KUBE_SERVICE = 'myapp-service'
+        IMAGE_NAME = 'plinphonpat/myapp2:latest'
+        KUBE_DEPLOYMENT = 'deployment'
+        KUBE_SERVICE = 'service'
     }
 
     stages {
