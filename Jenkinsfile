@@ -30,8 +30,6 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 sh '''
-                ssh -o StrictHostKeyChecking=no laborant@target << 'EOF'
-                cd ~/DevOps-exam || exit 1
                 pkill -f "node index.js" || true
                 nohup node index.js > app.log 2>&1 &
                 EOF
