@@ -49,11 +49,12 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withCredentials([file(credentialsId: 'my-kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh 'kubectl apply -f deployment.yaml'
+                sshagent(['ssh-credentials-id']) {
+                    sh 'ssh laborant@172.16.0.5 "kubectl apply -f ~/deployment.yaml"'
                 }
             }
         }
+        
     }
 
     post {
