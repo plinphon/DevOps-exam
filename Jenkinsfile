@@ -23,24 +23,25 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                sh 'npm test'
+                sh 'export NODE_ENV=test && npm test'
             }
         }
 
         stage('Deploy Docker') {
             steps {
                 sh '''
-                docker build -t myapp:latest .
-                            docker stop myapp || true
-                            docker rm myapp || true
-                            docker run -d \
-                                --name myapp \
-                                -p 4444:4444 \
-                                --restart unless-stopped \
-                                myapp:latest
+                    docker build -t myapp:latest . &&
+                    docker stop myapp || true &&
+                    docker rm myapp || true &&
+                    docker run -d \
+                        --name myapp \
+                        -p 4444:4444 \
+                        --restart unless-stopped \
+                        myapp:latest
                 '''
             }
         }
+
 
     }
 
