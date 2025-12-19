@@ -24,8 +24,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 sh '''
-                fuser -k 4444/tcp || true
-                fuser -k 4444/udp || true
+                lsof -i :4444 -t | xargs -r kill -9 || true
 
                 # Run tests
                 npm test
