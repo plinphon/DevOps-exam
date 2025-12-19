@@ -30,8 +30,11 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 sh '''
+                ssh laborant@target '
+                cd ~/DevOps-exam &&
                 pkill -f "node index.js" || true
                 nohup node index.js > app.log 2>&1 &
+                '
                 '''
             }
         }
