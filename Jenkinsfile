@@ -29,8 +29,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install express
-'
+                sh 'npm install express'
             }
         }
 
