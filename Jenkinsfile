@@ -23,8 +23,13 @@ pipeline {
 
         stage('Unit Tests') {
             steps {
+                sh '''
+                # Stop anything using port 4444
                 fuser -k 4444/tcp || true
-                sh 'npm test'
+
+                # Run tests
+                npm test
+                '''
             }
         }
 
