@@ -6,4 +6,6 @@ spec:
   containers:
     - name: myapp
       image: ttl.sh/myapp:1h
-      imagePullPolicy: Always
+      imagePullPolicy: Never
+      ports:
+        - containerPort: 4444
