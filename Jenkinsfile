@@ -30,14 +30,15 @@ pipeline {
         stage('Deploy to Target') {
             steps {
                 sh '''
-                ssh laborant@target '
-                cd ~/DevOps-exam &&
+                ssh laborant@target << 'EOF'
+                cd ~/DevOps-exam || exit 1
                 pkill -f "node index.js" || true
                 nohup node index.js > app.log 2>&1 &
-                '
+                EOF
                 '''
             }
         }
+
     }
 
     post {
