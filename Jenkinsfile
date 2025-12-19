@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Target') {
+        stage('Deploy Docker') {
             steps {
                 sh '''
                 docker build -t myapp:latest .
@@ -38,7 +38,6 @@ pipeline {
                                 -p 4444:4444 \
                                 --restart unless-stopped \
                                 myapp:latest
-                            "
                 '''
             }
         }
