@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'your-dockerhub-username/myapp:latest'
+        KUBE_DEPLOYMENT = 'myapp-deployment'
+        KUBE_SERVICE = 'myapp-service'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -27,22 +33,22 @@ pipeline {
             }
         }
 
-        stage('Deploy Docker') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                    docker build -t myapp:latest . &&
-                    docker stop myapp || true &&
-                    docker rm myapp || true &&
-                    docker run -d \
-                        --name myapp \
-                        -p 4444:4444 \
-                        --restart unless-stopped \
-                        myapp:latest
-                '''
+                sh """
+                    docker build -t $IMAGE_NAME .
+                    docker push $IMAGE_NAME
+                """
             }
         }
 
-
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                kubectl apply -f pod.yaml
+                '''
+            }
+        }
     }
 
     post {
