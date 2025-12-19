@@ -31,7 +31,7 @@ pipeline {
             steps {
                 sh '''
                 pkill -f "node index.js" || true
-                node index.js
+                nohup node index.js > app.log 2>&1 &
                 '''
             }
         }
