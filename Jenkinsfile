@@ -18,9 +18,8 @@ pipeline {
             steps {
                 sh '''
                 if ! node -v | grep -q v24; then
-                  curl -fsSL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh
-                  sudo -E bash nodesource_setup.sh
-                  sudo apt-get install -y nodejs
+                    sudo curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
+                    sudo apt-get install -y nodejs
                 fi
                 node -v
                 '''
